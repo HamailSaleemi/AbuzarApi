@@ -1,3 +1,3 @@
-from DATABASE.connection import sqlconnection
+from DATABASE.connection import SQLConnection
 
-conn = sqlconnection()
+conn = SQLConnection()

@@ -1,5 +1,5 @@
 import pyodbc
-import config_sql
+from DATABASE import config_sql
 
 
 class SQLConnection:

@@ -1,5 +1,8 @@
 import SQL  # Ensure SQL.py is in the same directory
 from fastapi import FastAPI
+from routes import login_routes
+
+
 conn = SQL.conn
 app = FastAPI()
 
@@ -9,18 +12,8 @@ def read_root():
     return {"message": "Hello, World!"}
 
 
-# try:
-#     cursor = conn.cursor()
-#     cursor.execute('SELECT * FROM Users')
-#     for row in cursor.fetchall():
-#         for col in row:
-#             print(col, end='\t')
-#         print('')
-# except Exception as e:
-#     print(f"Error executing query: {e}")
-# finally:
-#     cursor.close()
-#     conn.close()
+# Including all routes
+app.include_router(login_routes.router, prefix="/login", tags=["login"])
 
 if __name__ == "__main__":
     import uvicorn
