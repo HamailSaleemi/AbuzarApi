@@ -1,18 +1,14 @@
-import SQL  # Ensure SQL.py is in the same directory
 from fastapi import FastAPI
 from routes import login_routes
 
 
-conn = SQL.conn
 app = FastAPI()
 
-
-@app.get("/")
+@app.get("/ping")
 def read_root():
-    return {"message": "Hello, World!"}
+    return {"message": "I am alive"}
 
-
-# Including all routes
+# ✅ Just include the router (No `Depends` required)
 app.include_router(login_routes.router, prefix="/login", tags=["login"])
 
 if __name__ == "__main__":
