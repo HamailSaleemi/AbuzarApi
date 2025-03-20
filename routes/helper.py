@@ -57,3 +57,48 @@ def get_item_sale(ICode):
             'QtySold':str(row[5])
         })
     return result, totalSold
+
+
+
+def item_purchase(ICode):
+
+    con = connection.SQL_CONN
+    d1, d2 = get_date_for_month()
+    query = """SELECT 
+    purledger.purinvcode as PurchaseInvoice,
+    accounts.name as SuppliserName,
+    CONVERT(VARCHAR(10), purledger.date, 120) AS Date,  -- Convert to 'YYYY-MM-DD' format
+    item.customicode as AliasName,
+    AlternateItemAlias.customicode as AlterAliasName,
+    item.name as  ItemName,
+    AlternateItemAlias.qty AlterPack,
+    purdetail.purprice As PurchasePrice,
+    item.saleprice as SalePrice
+    FROM purdetail  
+    LEFT JOIN purledger ON purledger.purinvcode = purdetail.purinvcode
+    LEFT JOIN accounts ON accounts.acccode = purledger.suppcode
+    LEFT JOIN item ON item.icode = purdetail.icode
+    LEFT JOIN AlternateItemAlias ON AlternateItemAlias.icode = item.icode
+    WHERE 
+        (item.customicode = @icode OR AlternateItemAlias.customicode = @icode);"""
+
+    data = con.execute_query(query, (d1, d2, ICode))
+    result = []
+    totalSold = 0
+    print(d1)
+    print(d2)
+    for row in data:
+        totalSold = int(row[4]) * int(row[5]) + totalSold
+        result.append({
+        'PurchaseInvoice': row[0],
+        'SuppliserName': row[1],
+        'Date': row[2],
+        'AliasName': row[3],
+        'AlterAliasName': row[4],
+        'ItemName': row[5],
+        'AlterPack': row[6],
+        'PurchasePrice': row[7],
+        'SalePrice': row[8]
+        })
+    print(result)
+    return 0

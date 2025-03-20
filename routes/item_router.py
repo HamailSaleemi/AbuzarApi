@@ -47,3 +47,26 @@ def item_stck_and_sale(aliasname: str):
 
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+@router.get("/purchase")
+def item_stck_and_sale(aliasname: str):
+    try:
+        # get item info
+        result = helper.get_item_detail_by_aliasname(aliasname)
+        # print(result)
+        if not result:
+            raise HTTPException(status_code=404, detail="User not found")
+        print(result)
+        # Convert result to a list of dictionaries
+        result = result[0]
+        item = {"ICode": result[0],
+                "Aliasname":result[1], "Name": result[2], "Qty":int(result[4]), "SalePrice":str(result[3])}
+        # print(item)
+        # Convert result to a list of dictionaries
+        print(item)
+        item_sale = helper.item_purchase(item['ICode'])
+        print({"status": "success", "item": item, 'sale':item_sale})
+        return JSONResponse(content= {"status": "success", "item": item, 'sale':item_sale, 'totalSold':totalSold})
+
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
