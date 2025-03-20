@@ -64,9 +64,9 @@ def item_stck_and_sale(aliasname: str):
         # print(item)
         # Convert result to a list of dictionaries
         print(item)
-        item_sale = helper.item_purchase(item['ICode'])
-        print({"status": "success", "item": item, 'sale':item_sale})
-        return JSONResponse(content= {"status": "success", "item": item, 'sale':item_sale, 'totalSold':totalSold})
+        item_purchase = helper.item_purchase(aliasname)
+        print({"status": "success", "item": item, 'purchase data':item_purchase})
+        return JSONResponse(content= {"status": "success", "item": item, 'purchase data':item_purchase})
 
     except Exception as e:
         return {"status": "error", "message": str(e)}

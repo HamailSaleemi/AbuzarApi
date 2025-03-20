@@ -61,7 +61,7 @@ def get_item_sale(ICode):
 
 
 def item_purchase(ICode):
-
+    print('Alis code is', ICode)
     con = connection.SQL_CONN
     d1, d2 = get_date_for_month()
     query = """SELECT 
@@ -80,15 +80,13 @@ def item_purchase(ICode):
     LEFT JOIN item ON item.icode = purdetail.icode
     LEFT JOIN AlternateItemAlias ON AlternateItemAlias.icode = item.icode
     WHERE 
-        (item.customicode = @icode OR AlternateItemAlias.customicode = @icode);"""
+        (item.customicode = ? OR AlternateItemAlias.customicode = ?) order by Date desc;"""
 
-    data = con.execute_query(query, (d1, d2, ICode))
+    data = con.execute_query(query, (ICode, ICode))
     result = []
-    totalSold = 0
     print(d1)
     print(d2)
     for row in data:
-        totalSold = int(row[4]) * int(row[5]) + totalSold
         result.append({
         'PurchaseInvoice': row[0],
         'SuppliserName': row[1],
@@ -97,8 +95,8 @@ def item_purchase(ICode):
         'AlterAliasName': row[4],
         'ItemName': row[5],
         'AlterPack': row[6],
-        'PurchasePrice': row[7],
-        'SalePrice': row[8]
+        'PurchasePrice': float(row[7]),
+        'SalePrice': float(row[8])
         })
     print(result)
-    return 0
+    return result
