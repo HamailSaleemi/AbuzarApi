@@ -87,10 +87,10 @@ def get_supplier_name():
         return {"status": "error", "message": str(e)}
     
 @router.get("/itemsupplier")
-def get_itemsupplier():
+def get_itemsupplier(parm1:str,parm2:str):
     try:
         # get item info
-        result = helper.Get_Supplier_Name()
+        result = helper.Get_Supplier_wise_item(params1=parm1,params2=parm2)
         # print(result)
         if not result:
             raise HTTPException(status_code=404, detail="Supplier not found")
