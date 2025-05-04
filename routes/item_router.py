@@ -80,13 +80,21 @@ def get_supplier_name():
         # print(result)
         if not result:
             raise HTTPException(status_code=404, detail="Supplier not found")
+        
+        return JSONResponse(content= {"status": "success", "supplier": result})
+
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+    
+@router.get("/itemsupplier")
+def get_itemsupplier():
+    try:
+        # get item info
+        result = helper.Get_Supplier_Name()
         # print(result)
-        # Convert result to a list of dictionaries
-        # result = result[0]
-        # Supplier = {"Acccode": result[0],"AliasName":result[1], "Name": result[2]}
-        # print(item)
-        # Convert result to a list of dictionaries
-        # print(Supplier)
+        if not result:
+            raise HTTPException(status_code=404, detail="Supplier not found")
+        
         return JSONResponse(content= {"status": "success", "supplier": result})
 
     except Exception as e:

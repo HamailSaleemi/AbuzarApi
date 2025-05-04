@@ -116,3 +116,40 @@ def Get_Supplier_Name():
             'Name': row[2]
         })
     return result
+
+
+def Get_Supplier_wise_item():
+
+    con = connection.SQL_CONN
+    # d1, d2 = get_date_for_month()
+    query = ("""SELECT 
+                        saledetail.icode,
+                        customicode,
+                        Name,
+                        SUM(CASE 
+                                WHEN saleledger.date >= '2025-04-01' 
+                                    AND saleledger.date < DATEADD(day, -7, '2025-04-30') THEN looseqty
+                                ELSE 0 
+                            END) AS Sale_Till_23_April,
+                        SUM(CASE 
+                                WHEN saleledger.date >= DATEADD(day, -7, '2025-04-30') 
+                                    AND saleledger.date <= '2025-04-30 23:59:59' THEN looseqty
+                                ELSE 0 
+                            END) AS Sale_Last_7_Days,
+                        SUM(looseqty) AS Total_April_Sale
+                    FROM saledetail
+                    INNER JOIN item ON item.icode = saledetail.icode
+                    INNER JOIN saleledger ON saleledger.saleinvcode = saledetail.saleinvcode
+                    WHERE saleledger.date >= '2025-04-01' 
+                        AND saleledger.date <= '2025-04-30 23:59:59' 
+                    GROUP BY saledetail.icode, customicode, Name
+                                                                        """)
+    data = con.execute_query(query)
+    result = []
+    for row in data:
+        result.append({
+            'Acccode': row[0],
+            'AliasName': row[1],
+            'Name': row[2]
+        })
+    return result
