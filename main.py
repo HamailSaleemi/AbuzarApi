@@ -11,7 +11,6 @@ def read_root():
 # App routers included
 app.include_router(login_routes.router, prefix="/login", tags=["Login"])
 app.include_router(item_router.router, prefix="/item", tags=["Item"])
-app.include_router(item_router.router, prefix="/Supplier", tags=["Supplier"])
 
 if __name__ == "__main__":
     import uvicorn
