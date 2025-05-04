@@ -100,3 +100,20 @@ def item_purchase(ICode):
         })
     print(result)
     return result
+
+
+def Get_Supplier_Name():
+
+    con = connection.SQL_CONN
+    d1, d2 = get_date_for_month()
+    query = ('select Acccode,AliasName, Name from accounts where subcode=7 and active=Y')
+    data = con.execute_query(query)
+    result = []
+    for row in data:
+        totalSold = int(row[4]) * int(row[5]) + totalSold
+        result.append({
+            'Acccode': row[0],
+            'AliasName': row[1].strftime('%Y-%m-%d %H:%M:%S'),
+            'Name': row[2]
+        })
+    return result, 

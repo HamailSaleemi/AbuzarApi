@@ -70,3 +70,24 @@ def item_stck_and_sale(aliasname: str):
 
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+
+@router.get("/Supplier")
+def get_supplier_name():
+    try:
+        # get item info
+        result = helper.Get_Supplier_Name()
+        # print(result)
+        if not result:
+            raise HTTPException(status_code=404, detail="Supplier not found")
+        print(result)
+        # Convert result to a list of dictionaries
+        result = result[0]
+        Supplier = {"Acccode": result[0],"AliasName":result[1], "Name": result[2]}
+        # print(item)
+        # Convert result to a list of dictionaries
+        print(Supplier)
+        return JSONResponse(content= {"status": "success", "supplier": Supplier})
+
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
