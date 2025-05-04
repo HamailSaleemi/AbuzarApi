@@ -16,7 +16,7 @@ def login(username: str, password: str):
 
         # Convert result to a list of dictionaries
         users = [{"id": row[0], "username": row[1]} for row in result]
-
+        print(users)
 
         return {"status": "success", "users": users}
 
