@@ -1,3 +1,4 @@
 fastapi
 pyodbc
 uvicorn
+DATABASE/__pycache__/
