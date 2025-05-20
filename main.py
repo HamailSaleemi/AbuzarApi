@@ -2,7 +2,19 @@ from fastapi import FastAPI
 from routes import login_routes, item_router
 
 
+from fastapi.middleware.cors import CORSMiddleware
+
+
 app = FastAPI()
+
+# allow middleware cores
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Replace "*" with exact origins in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/ping")
 def read_root():
