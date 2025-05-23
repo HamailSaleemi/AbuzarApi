@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import login_routes, item_router
+from routes import login_routes, item_router, supplier_route
 
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,6 +23,7 @@ def read_root():
 # App routers included
 app.include_router(login_routes.router, prefix="/login", tags=["Login"])
 app.include_router(item_router.router, prefix="/item", tags=["Item"])
+app.include_router(supplier_route.router, prefix="/supplier", tags=["Item"])
 
 if __name__ == "__main__":
     import uvicorn

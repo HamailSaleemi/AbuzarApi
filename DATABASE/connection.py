@@ -1,5 +1,5 @@
 import pyodbc
-from DATABASE import config_sql
+from AbuzarApi.DATABASE import config_sql
 
 
 class SQLConnection:
